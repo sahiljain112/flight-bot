@@ -15,17 +15,17 @@ const
   request = require('request'),
   env = require('node-env-file'),
   Wit = require('node-wit').Wit,
-  log = require('node-wit').log;
+  log = require('node-wit').log
 
-var checks = require('./checks');
-var checkLocTo = checks.checkLocTo;
-var checkLocFrom = checks.checkLocFrom;
-var checkTime = checks.checkTime;
-var checkBooking = checks.checkBooking;
+var checks = require('./checks')
+var checkLocTo = checks.checkLocTo
+var checkLocFrom = checks.checkLocFrom
+var checkTime = checks.checkTime
+var checkBooking = checks.checkBooking
 
-if(process.env.NODE_ENV !== 'production')
+if (process.env.NODE_ENV !== 'production') {
   env(__dirname + '/.env')
-
+}
 
 var app = express()
 app.set('port', process.env.PORT || 5000)
@@ -61,22 +61,20 @@ const SERVER_URL = process.env.SERVER_URL
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
 const WIT_TOKEN = process.env.WIT_TOKEN
 
-
-console.log('Environment variables.................',process.env.SERVER_URL, process.env.PAGE_ACCESS_TOKEN, process.env.MESSENGER_APP_SECRET,process.env.VALIDATION_TOKEN )
+console.log('Environment variables.................', process.env.SERVER_URL, process.env.PAGE_ACCESS_TOKEN, process.env.MESSENGER_APP_SECRET, process.env.VALIDATION_TOKEN)
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
-
-  console.error("Missing config values")
+  console.error('Missing config values')
   process.exit(1)
 }
 
-app.get('/webhook', function(req, res) {
+app.get('/webhook', function (req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VALIDATION_TOKEN) {
-    console.log("Validating webhook")
+    console.log('Validating webhook')
     res.status(200).send(req.query['hub.challenge'])
   } else {
-    console.error("Failed validation. Make sure the validation tokens match.")
+    console.error('Failed validation. Make sure the validation tokens match.')
     res.sendStatus(403)
   }
 })
@@ -89,7 +87,7 @@ app.get('/webhook', function(req, res) {
  *
  */
 
- const sessions = {}
+const sessions = {}
 
 const findOrCreateSession = (fbid) => {
   let sessionId
@@ -124,12 +122,11 @@ const actions = {
         },
         message: {
           text: text,
-          metadata: "DEVELOPER_DEFINED_METADATA"
+          metadata: 'DEVELOPER_DEFINED_METADATA'
         }
       }
 
       return callSendAPI(messageData)
-
     } else {
       console.error('Oops! Couldn\'t find user for session:', sessionId)
       // Giving the wheel back to our bot
@@ -154,18 +151,16 @@ app.post('/webhook', function (req, res) {
   if (data.object == 'page') {
     // Iterate over each entry
     // There may be multiple if batched
-    data.entry.forEach(function(pageEntry) {
+    data.entry.forEach(function (pageEntry) {
       var pageID = pageEntry.id
       var timeOfEvent = pageEntry.time
 
       // Iterate over each messaging event
-      pageEntry.messaging.forEach(function(messagingEvent) {
+      pageEntry.messaging.forEach(function (messagingEvent) {
         if (messagingEvent.optin) {
           receivedAuthentication(messagingEvent)
         } else if (messagingEvent.message) {
-
           receivedMessage(messagingEvent)
-
         } else if (messagingEvent.delivery) {
           receivedDeliveryConfirmation(messagingEvent)
         } else if (messagingEvent.postback) {
@@ -175,7 +170,7 @@ app.post('/webhook', function (req, res) {
         } else if (messagingEvent.account_linking) {
           receivedAccountLink(messagingEvent)
         } else {
-          console.log("Webhook received unknown messagingEvent: ", messagingEvent)
+          console.log('Webhook received unknown messagingEvent: ', messagingEvent)
         }
       })
     })
@@ -193,16 +188,16 @@ app.post('/webhook', function (req, res) {
  * (sendAccountLinking) is pointed to this URL.
  *
  */
-app.get('/authorize', function(req, res) {
+app.get('/authorize', function (req, res) {
   var accountLinkingToken = req.query.account_linking_token
   var redirectURI = req.query.redirect_uri
 
   // Authorization Code should be generated per user by the developer. This will
   // be passed to the Account Linking callback.
-  var authCode = "1234567890"
+  var authCode = '1234567890'
 
   // Redirect users to this URI on successful login
-  var redirectURISuccess = redirectURI + "&authorization_code=" + authCode
+  var redirectURISuccess = redirectURI + '&authorization_code=' + authCode
 
   res.render('authorize', {
     accountLinkingToken: accountLinkingToken,
@@ -219,8 +214,8 @@ app.get('/authorize', function(req, res) {
  * https://developers.facebook.com/docs/graph-api/webhooks#setup
  *
  */
-function verifyRequestSignature(req, res, buf) {
-  var signature = req.headers["x-hub-signature"]
+function verifyRequestSignature (req, res, buf) {
+  var signature = req.headers['x-hub-signature']
 
   if (!signature) {
     // For testing, let's log an error. In production, you should throw an
@@ -249,7 +244,7 @@ function verifyRequestSignature(req, res, buf) {
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/authentication
  *
  */
-function receivedAuthentication(event) {
+function receivedAuthentication (event) {
   var senderID = event.sender.id
   var recipientID = event.recipient.id
   var timeOfAuth = event.timestamp
@@ -261,13 +256,13 @@ function receivedAuthentication(event) {
   // plugin.
   var passThroughParam = event.optin.ref
 
-  console.log("Received authentication for user %d and page %d with pass " +
+  console.log('Received authentication for user %d and page %d with pass ' +
     "through param '%s' at %d", senderID, recipientID, passThroughParam,
     timeOfAuth)
 
   // When an authentication is received, we'll send a message back to the sender
   // to let them know it was successful.
-  sendTextMessage(senderID, "Authentication successful")
+  sendTextMessage(senderID, 'Authentication successful')
 }
 
 /*
@@ -284,14 +279,13 @@ function receivedAuthentication(event) {
  * then we'll simply confirm that we've received the attachment.
  *
  */
-function receivedMessage(event) {
-
+function receivedMessage (event) {
   var senderID = event.sender.id
   var recipientID = event.recipient.id
   var timeOfMessage = event.timestamp
   var message = event.message
 
-  console.log("Received message for user %d and page %d at %d with message:",
+  console.log('Received message for user %d and page %d at %d with message:',
     senderID, recipientID, timeOfMessage)
   console.log(JSON.stringify(message))
 
@@ -308,20 +302,19 @@ function receivedMessage(event) {
 
   if (isEcho) {
     // Just logging message echoes to console
-    console.log("Received echo for message %s and app %d with metadata %s",
+    console.log('Received echo for message %s and app %d with metadata %s',
       messageId, appId, metadata)
     return
   } else if (quickReply) {
     var quickReplyPayload = quickReply.payload
-    console.log("Quick reply for message %s with payload %s",
+    console.log('Quick reply for message %s with payload %s',
       messageId, quickReplyPayload)
 
-    sendTextMessage(senderID, "Quick reply tapped")
+    sendTextMessage(senderID, 'Quick reply tapped')
     return
   }
 
   if (messageText) {
-
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
@@ -356,10 +349,9 @@ function receivedMessage(event) {
     //     sendTextMessage(senderID, 'Yo Sahil')
     // }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received")
+    sendTextMessage(senderID, 'Message with attachment received')
   }
 }
-
 
 /*
  * Delivery Confirmation Event
@@ -368,8 +360,7 @@ function receivedMessage(event) {
  * these fields at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
  *
  */
-function receivedDeliveryConfirmation(event) {
-
+function receivedDeliveryConfirmation (event) {
   var senderID = event.sender.id
   var recipientID = event.recipient.id
   var delivery = event.delivery
@@ -378,15 +369,14 @@ function receivedDeliveryConfirmation(event) {
   var sequenceNumber = delivery.seq
 
   if (messageIDs) {
-    messageIDs.forEach(function(messageID) {
-      console.log("Received delivery confirmation for message ID: %s",
+    messageIDs.forEach(function (messageID) {
+      console.log('Received delivery confirmation for message ID: %s',
         messageID)
     })
   }
 
-  console.log("All message before %d were delivered.", watermark)
+  console.log('All message before %d were delivered.', watermark)
 }
-
 
 /*
  * Postback Event
@@ -395,7 +385,7 @@ function receivedDeliveryConfirmation(event) {
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback-received
  *
  */
-function receivedPostback(event) {
+function receivedPostback (event) {
   var senderID = event.sender.id
   var recipientID = event.recipient.id
   var timeOfPostback = event.timestamp
@@ -405,11 +395,11 @@ function receivedPostback(event) {
   var payload = event.postback.payload
 
   console.log("Received postback for user %d and page %d with payload '%s' " +
-    "at %d", senderID, recipientID, payload, timeOfPostback)
+    'at %d', senderID, recipientID, payload, timeOfPostback)
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called")
+  sendTextMessage(senderID, 'Postback called')
 }
 
 /*
@@ -419,7 +409,7 @@ function receivedPostback(event) {
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-read
  *
  */
-function receivedMessageRead(event) {
+function receivedMessageRead (event) {
   var senderID = event.sender.id
   var recipientID = event.recipient.id
 
@@ -427,8 +417,8 @@ function receivedMessageRead(event) {
   var watermark = event.read.watermark
   var sequenceNumber = event.read.seq
 
-  console.log("Received message read event for watermark %d and sequence " +
-    "number %d", watermark, sequenceNumber)
+  console.log('Received message read event for watermark %d and sequence ' +
+    'number %d', watermark, sequenceNumber)
 }
 
 /*
@@ -439,26 +429,25 @@ function receivedMessageRead(event) {
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/account-linking
  *
  */
-function receivedAccountLink(event) {
+function receivedAccountLink (event) {
   var senderID = event.sender.id
   var recipientID = event.recipient.id
 
   var status = event.account_linking.status
   var authCode = event.account_linking.authorization_code
 
-  console.log("Received account link event with for user %d with status %s " +
-    "and auth code %s ", senderID, status, authCode)
+  console.log('Received account link event with for user %d with status %s ' +
+    'and auth code %s ', senderID, status, authCode)
 }
 
-
-function sendTypingOn(recipientId) {
-  console.log("Turning typing indicator on")
+function sendTypingOn (recipientId) {
+  console.log('Turning typing indicator on')
 
   var messageData = {
     recipient: {
       id: recipientId
     },
-    sender_action: "typing_on"
+    sender_action: 'typing_on'
   }
 
   callSendAPI(messageData)
@@ -468,27 +457,27 @@ function sendTypingOn(recipientId) {
  * Turn typing indicator off
  *
  */
-function sendTypingOff(recipientId) {
-  console.log("Turning typing indicator off")
+function sendTypingOff (recipientId) {
+  console.log('Turning typing indicator off')
 
   var messageData = {
     recipient: {
       id: recipientId
     },
-    sender_action: "typing_off"
+    sender_action: 'typing_off'
   }
 
   callSendAPI(messageData)
 }
 
-function sendTextMessage(recipientId, messageText) {
+function sendTextMessage (recipientId, messageText) {
   var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
       text: messageText,
-      metadata: "DEVELOPER_DEFINED_METADATA"
+      metadata: 'DEVELOPER_DEFINED_METADATA'
     }
   }
 
@@ -500,7 +489,7 @@ function sendTextMessage(recipientId, messageText) {
  * get the message id in a response
  *
  */
-function callSendAPI(messageData) {
+function callSendAPI (messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: { access_token: PAGE_ACCESS_TOKEN },
@@ -513,14 +502,14 @@ function callSendAPI(messageData) {
       var messageId = body.message_id
 
       if (messageId) {
-        console.log("Successfully sent message with id %s to recipient %s",
+        console.log('Successfully sent message with id %s to recipient %s',
           messageId, recipientId)
       } else {
-      console.log("Successfully called Send API for recipient %s",
+        console.log('Successfully called Send API for recipient %s',
         recipientId)
       }
     } else {
-      console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error)
+      console.error('Failed calling Send API', response.statusCode, response.statusMessage, body.error)
     }
   })
 }
@@ -528,7 +517,7 @@ function callSendAPI(messageData) {
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
 // certificate authority.
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), function () {
   console.log('Node app is running on port', app.get('port'))
 })
 
