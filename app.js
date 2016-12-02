@@ -123,7 +123,7 @@ const actions = {
           id: recipientId
         },
         message: {
-          text: messageText,
+          text: text,
           metadata: "DEVELOPER_DEFINED_METADATA"
         }
       }
@@ -348,13 +348,13 @@ function receivedMessage(event) {
           console.error('Oops! Got an error from Wit: ', err.stack || err)
         })
 
-    switch (messageText) {
-      case 'test':
-        sendTextMessage(senderID, 'Test Message')
-        break
-      default:
-        sendTextMessage(senderID, 'Yo Sahil')
-    }
+    // switch (messageText) {
+    //   case 'test':
+    //     sendTextMessage(senderID, 'Test Message')
+    //     break
+    //   default:
+    //     sendTextMessage(senderID, 'Yo Sahil')
+    // }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received")
   }
