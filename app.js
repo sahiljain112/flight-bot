@@ -17,7 +17,11 @@ const
   Wit = require('node-wit').Wit,
   log = require('node-wit').log;
 
-const { checkBooking , checkLocTo, checkLocFrom, checkTime } = require('./checks');
+var checks = require('./checks');
+var checkLocTo = checks.checkLocTo;
+var checkLocFrom = checks.checkLocFrom;
+var checkTime = checks.checkTime;
+var checkBooking = checks.checkBooking;
 
 if(process.env.NODE_ENV !== 'production')
   env(__dirname + '/.env')
