@@ -14,8 +14,10 @@ const
   https = require('https'),
   request = require('request'),
   env = require('node-env-file');
+
+if(!process.env.PRODUCTION)
+  env(__dirname + '/.env');
   
-env(__dirname + '/.env');
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
