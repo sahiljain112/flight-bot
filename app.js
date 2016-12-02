@@ -19,7 +19,7 @@ app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
-// 
+//
 //
 // const APP_SECRET = (process.env.MESSENGER_APP_SECRET) ?
 //   process.env.MESSENGER_APP_SECRET :
@@ -41,11 +41,14 @@ app.use(express.static('public'));
 //   (process.env.SERVER_URL) :
 //   config.get('serverURL');
 //
-// const APP_SECRET = ENV['MESSENGER_APP_SECRET'];
-// const VALIDATION_TOKEN = ENV['VALIDATION_TOKEN'];
-// const SERVER_URL = ENV['SERVER_URL'];
-// const PAGE_ACCESS_TOKEN = ENV['PAGE_ACCESS_TOKEN'];
-console.log('Env variables',process.env.SERVER_URL, process.env.PAGE_ACCESS_TOKEN);
+const APP_SECRET = process.env.MESSENGER_APP_SECRET;
+const VALIDATION_TOKEN = process.env.VALIDATION_TOKEN;
+const SERVER_URL = process.env.SERVER_URL;
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
+
+console.log('Environment variables.................',process.env.SERVER_URL, process.env.PAGE_ACCESS_TOKEN, process.env.MESSENGER_APP_SECRET);
+
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 
   console.error("Missing config values");
