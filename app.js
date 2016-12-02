@@ -15,7 +15,7 @@ const
   request = require('request'),
   env = require('node-env-file');
 
-if(!process.env.PRODUCTION)
+if(process.env.NODE_ENV !== 'production')
   env(__dirname + '/.env');
   
 var app = express();
