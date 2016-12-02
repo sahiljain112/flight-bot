@@ -12,13 +12,16 @@ const
   crypto = require('crypto'),
   express = require('express'),
   https = require('https'),
-  request = require('request');
-
+  request = require('request'),
+  env = require('node-env-file');
+  
+env(__dirname + '/.env');
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
+
 //
 //
 // const APP_SECRET = (process.env.MESSENGER_APP_SECRET) ?
@@ -47,7 +50,7 @@ const SERVER_URL = process.env.SERVER_URL;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 
-console.log('Environment variables.................',process.env.SERVER_URL, process.env.PAGE_ACCESS_TOKEN, process.env.MESSENGER_APP_SECRET);
+console.log('Environment variables.................',process.env.SERVER_URL, process.env.PAGE_ACCESS_TOKEN, process.env.MESSENGER_APP_SECRET,process.env.VALIDATION_TOKEN );
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 
