@@ -17,7 +17,7 @@ const
   Wit = require('node-wit').Wit,
   log = require('node-wit').log;
 
-var {checkBooking , checkLocTo, checkLocFrom, checkTime} = require('./checks');
+const { checkBooking , checkLocTo, checkLocFrom, checkTime } = require('./checks');
 
 if(process.env.NODE_ENV !== 'production')
   env(__dirname + '/.env')
@@ -57,12 +57,6 @@ const SERVER_URL = process.env.SERVER_URL
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
 const WIT_TOKEN = process.env.WIT_TOKEN
 
-
-const wit = new Wit({
-  accessToken: WIT_TOKEN,
-  actions,
-  logger: new log.Logger(log.INFO)
-})
 
 console.log('Environment variables.................',process.env.SERVER_URL, process.env.PAGE_ACCESS_TOKEN, process.env.MESSENGER_APP_SECRET,process.env.VALIDATION_TOKEN )
 
@@ -143,6 +137,12 @@ const actions = {
   checkBooking,
   checkTime
 }
+
+const wit = new Wit({
+  accessToken: WIT_TOKEN,
+  actions,
+  logger: new log.Logger(log.INFO)
+})
 
 app.post('/webhook', function (req, res) {
   var data = req.body
