@@ -34,10 +34,10 @@ function checkBooking ({context, entities}) {
   }
 
   if (time) {
-      context.time = time
+    context.time = time
   }
 
-  console.log(Object.keys(context));
+  console.log(Object.keys(context))
   return context
 }
 
@@ -65,7 +65,7 @@ function checkLocFrom ({context, entities}) {
   var loc = firstEntityValue(entities, 'location')
   var locTo = firstEntityValue(entities, 'to')
   console.log('check from', locFrom, loc, locTo)
-  console.log('context from', context);
+  console.log('context from', context)
   if (!context['locFrom']) {
     if (locFrom) {
       context.locFrom = locFrom
@@ -102,9 +102,9 @@ function checkTime ({context, entities}) {
 
 function reset ({context}) {
   Object.keys(context).forEach(k => {
-    delete context[k];
-  });
-  return context;
+    delete context[k]
+  })
+  return context
 }
 
 module.exports = {
