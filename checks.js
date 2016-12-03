@@ -11,43 +11,33 @@ const firstEntityValue = (entities, entity) => {
 }
 
 function checkBooking ({context, entities}) {
+  // var loc = firstEntityValue(entities, 'location')
   var loc = firstEntityValue(entities, 'location')
 
-  console.log('check')
+  var locTo = firstEntityValue(entities, 'to') || loc
+  var locFrom = firstEntityValue(entities, 'from')
+  var time = firstEntityValue(entities, 'datetime')
+
+  // console.log('start', loc, locTo, locFrom)
 
   if (!context.locTo) {
-    var locTo = firstEntityValue(entities, 'to')
-
-    if (!locTo) {
-      context.missingLocTo = true
-    } else {
+    if (locTo) {
       context.locTo = locTo
       delete context.missingLocTo
+    } else {
+      context.missingLocTo = 'Missing location To'
     }
   }
 
-  if (!context.locFrom) {
-    var locFrom = firstEntityValue(entities, 'from')
-
-    if (!locFrom) {
-      context.missingLocFrom = true
-    } else {
-      context.locFrom = locFrom
-      delete context.missingLocFrom
-    }
+  if (locFrom) {
+    context.locFrom = locFrom
   }
 
-  if (!context.time) {
-    var time = firstEntityValue(entities, 'datetime')
-    if (!time) {
-      context.missingTime = true
-    } else {
+  if (time) {
       context.time = time
-      delete context.missingTime
-    }
   }
 
-  console.log('final context', context)
+  console.log(Object.keys(context));
   return context
 }
 
@@ -55,7 +45,6 @@ function checkLocTo ({context, entities}) {
   var locTo = firstEntityValue(entities, 'to')
   var loc = firstEntityValue(entities, 'location')
   var locFrom = firstEntityValue(entities, 'from')
-  console.log('check to', locTo, loc, locFrom)
 
   if (locTo) {
     context.locTo = locTo
@@ -76,15 +65,20 @@ function checkLocFrom ({context, entities}) {
   var loc = firstEntityValue(entities, 'location')
   var locTo = firstEntityValue(entities, 'to')
   console.log('check from', locFrom, loc, locTo)
-  if (locFrom) {
-    context.locFrom = locFrom
-    delete context.missingLocFrom
-  } else if (loc) {
-    context.locFrom = loc
-    delete context.missingLocFrom
-  } else if (locTo) {
-    context.locFrom = locTo
-    delete context.missingLocFrom
+  console.log('context from', context);
+  if (!context['locFrom']) {
+    if (locFrom) {
+      context.locFrom = locFrom
+      delete context.missingLocFrom
+    } else if (loc) {
+      context.locFrom = loc
+      delete context.missingLocFrom
+    } else if (locTo) {
+      context.locFrom = locTo
+      delete context.missingLocFrom
+    } else {
+      context.missingLocFrom = 'missing'
+    }
   }
   console.log('retrung context', context)
   return context
@@ -94,17 +88,29 @@ function checkTime ({context, entities}) {
   var time = firstEntityValue(entities, 'datetime')
 
   console.log('check time', time)
-  if (time) {
-    context.time = time
-    delete context.missingTime
+  if (!context['time']) {
+    if (time) {
+      context.time = time
+      delete context.missingTime
+    } else {
+      context.missingTime = 'missing it!'
+    }
   }
   console.log('retrung context', context)
   return context
+}
+
+function reset ({context}) {
+  Object.keys(context).forEach(k => {
+    delete context[k];
+  });
+  return context;
 }
 
 module.exports = {
   checkBooking,
   checkLocFrom,
   checkLocTo,
-  checkTime
+  checkTime,
+  reset
 }

@@ -22,6 +22,7 @@ var checkLocTo = checks.checkLocTo
 var checkLocFrom = checks.checkLocFrom
 var checkTime = checks.checkTime
 var checkBooking = checks.checkBooking
+var reset = checks.reset
 
 if (process.env.NODE_ENV !== 'production') {
   env(__dirname + '/.env')
@@ -136,7 +137,8 @@ const actions = {
   checkLocTo,
   checkLocFrom,
   checkBooking,
-  checkTime
+  checkTime,
+  reset
 }
 
 const wit = new Wit({
