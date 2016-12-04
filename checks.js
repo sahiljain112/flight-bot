@@ -1,3 +1,6 @@
+
+// call the queryFlights function with date, from and to to get an array of available flights!
+const queryFlights = require('./query.js');
 const firstEntityValue = (entities, entity) => {
   const val = entities && entities[entity] &&
     Array.isArray(entities[entity]) &&
