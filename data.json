@@ -1,0 +1,5 @@
+[
+  {"date":"01-01-2016","duration":3,"cost":3672,"destination":3,"source":1,"slot":"M","airline":"Jet"},
+  {"date":"01-01-2016","duration":5,"cost":5700,"destination":6,"source":1,"slot":"M","airline":"Jet"},
+  {"date":"01-01-2016","duration":5,"cost":5759,"destination":5,"source":1,"slot":"M","airline":"Go"}
+]
