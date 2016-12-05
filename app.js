@@ -511,6 +511,7 @@ function callSendAPI (messageData) {
       N: 'at night',
       M: 'in the morning'
     }
+    console.log(messageData.message.text, '$CATCH_FLIGHT'.length);
     console.log('rec', messageData.message.text.slice('$CATCH_FLIGHT'.length))
 
     var f = JSON.parse(messageData.message.text.slice('$CATCH_FLIGHT'.length))
