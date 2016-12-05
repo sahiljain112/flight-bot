@@ -1,12 +1,12 @@
 const query = require('./query')
 // call the queryFlights function with date, from and to to get an array of available flights!
-const mapping = require('./mapping').mapping;
-const hashCode = function(str) {
+const mapping = require('./mapping').mapping
+const hashCode = function (str) {
   var hash = 0, i, chr, len
   if (str.length === 0) return hash
   for (i = 0, len = str.length; i < len; i++) {
-    chr   = str.charCodeAt(i)
-    hash  = ((hash << 5) - hash) + chr
+    chr = str.charCodeAt(i)
+    hash = ((hash << 5) - hash) + chr
     hash |= 0// Convert to 32bit integer
   }
   return parseInt(hash)
@@ -98,15 +98,15 @@ function checkLocFrom ({context, entities}) {
   return context
 }
 
-function beautifyFlights(flights) {
+function beautifyFlights (flights) {
   const timings = {
     A: 'in afternoon',
     E: 'in evening',
     N: 'at night',
     M: 'in the morning'
-  };
+  }
   return flights.map(f => {
-    return `A ${f.airline}-${hashCode(f.airline+f.source+f.slot+f.destination)% 1000} airlines flight, will depart ${timings[f.slot]}.
+    return `A ${f.airline}-${hashCode(f.airline + f.source + f.slot + f.destination) % 1000} airlines flight, will depart ${timings[f.slot]}.
      The duration of this flight would be ${f.duration}.
     And will cost you a total of ${f.cost}.
     `

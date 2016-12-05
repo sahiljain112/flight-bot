@@ -2,8 +2,9 @@
 var jsonData = require('./data.json')
 
 const getFlight = (date, from, to, limit) => {
-  console.log(date, from, to, limit);
-  let timeCompare = '00:00:00.000-08:00'    // Will not work for midnight flight cases
+  console.log(date, from, to, limit)
+  let timeCompare = '00:00:00.000-08:00'
+ // Will not work for midnight flight cases
   date = '' + date
   const formattedDate = (date).split('T')
   let availableFlights = []
@@ -32,6 +33,8 @@ const getFlight = (date, from, to, limit) => {
 }
 
 const findSlot = (date) => {
+  date = new Date(date);
+  console.log('Date', date);
   const timeHours = date.getHours() - 8
 
   if (timeHours > 6 && timeHours <= 12) {
@@ -46,7 +49,7 @@ const getBestRecommedations = (date, from, to, limit, suggestionLimit) => {
   let timeCompare = '00:00:00.000-08:00'
   date = formattedDate[0] + timeCompare
 
-  let availableFlights = getBestFlight(date, from, to, limit)
+  let availableFlights = getBestFlights(date, from, to, limit)
   let bestFlights = getBestFlights(availableFlights, suggestionLimit)
 
   let goodNearbyFlights = []
@@ -82,20 +85,20 @@ const getBestFlights = (flights, limit) => {
   return flights.slice(limit)
 }
 
-const checkSeatAvailablity = (date) => {
-  const timeDiff = Math.abs(previous.getTime() - tomorrow.getTime())
-  const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
-
-  const seatsLeft = predictSeatsLeft(diffDays, Math.floor(Math.random() * 4))
-
-  if (seatsLeft <= 5) {
-    finalValue = 'Filling Fast'
-  } else if (seatsLeft <= 10) {
-    finalValue = 'Filling Normally'
-  } else { finalValue = 'Filling Safely' }
-
-  return [ seatsLeft, finalValue]
-}
+//  const checkSeatAvailablity = (date) => {
+//   const timeDiff = Math.abs(previous.getTime() - tomorrow.getTime())
+//   const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
+//
+//   const seatsLeft = predictSeatsLeft(diffDays, Math.floor(Math.random() * 4))
+//   let finalValue = 'Filling Fast';
+//   if (seatsLeft <= 5) {
+//     finalValue = 'Filling Fast'
+//   } else if (seatsLeft <= 10) {
+//     finalValue = 'Filling Normally'
+//   } else { finalValue = 'Filling Safely' }
+//
+//   return [ seatsLeft, finalValue]
+// }
 
 // Predicts the number of seats left based on a quadratic function. Assuming initially there are a 100 seats left!
 const predictSeatsLeft = (x, r) => {
