@@ -511,32 +511,48 @@ function callSendAPI (messageData) {
       N: 'at night',
       M: 'in the morning'
     }
-    console.log(messageData.message.text, '$CATCH_FLIGHT'.length);
+    console.log(messageData.message.text, '$CATCH_FLIGHT'.length)
     console.log('rec', messageData.message.text.slice('$CATCH_FLIGHT'.length))
 
     var f = JSON.parse(messageData.message.text.slice('$CATCH_FLIGHT'.length))
-
+    return flights.map(f => {
+      return `A ${f.airline}-${hashCode(f.airline+f.source+f.slot+f.destination)% 1000} airlines flight, will depart in the ${timings[f.slot]}].
+       The duration of this flight would be ${f.duration}.
+      And will cost you a total of ${f.cost}.
+      `
+    })
     console.log('receipt', f)
     messageData = {
       recipient: messageData.recipient,
       message: {
-        "attachment":{
-          "type":"template",
-          "payload":{
-            "template_type":"button",
-            "text":"What do you want to do next?",
-            "buttons":[
-              {
-                "type":"web_url",
-                "url":"https://petersapparel.parseapp.com",
-                "title":"Show Website"
+        'attachment': {
+          'type': 'template',
+          'payload': {
+            'template_type': 'airline_update',
+            'intro_message': 'Your flight has been booked',
+            'update_type': 'booked',
+            'locale': 'en_US',
+            'pnr_number': 'CF23G2',
+            'update_flight_info': {
+              'flight_number': Math.abs(hashCode(f.airline+f.source+f.slot+f.destination)% 1000),
+              'departure_airport': {
+                'airport_code': f.from.slice(0, 2),
+                'city': f.from,
+                'terminal': parseInt(Math.random()*3) + 1,
+                'gate': `G${parseInt(Math.random()*10)}`
               },
-              {
-                "type":"postback",
-                "title":"Start Chatting",
-                "payload":"USER_DEFINED_PAYLOAD"
+              'arrival_airport': {
+                'airport_code': f.to.slice(0, 2),
+                'city': f.to,
+                'terminal': parseInt(Math.random()*3) + 1,
+                'gate': `G${parseInt(Math.random()*10)}`
+              },
+              'flight_schedule': {
+                'boarding_time': f.date,
+                'departure_time': f.date,
+                'arrival_time': f.date
               }
-            ]
+            }
           }
         }
       }
@@ -562,7 +578,7 @@ function callSendAPI (messageData) {
     //     }
     //   }
     // }
-    console.log(messageData);
+    console.log(messageData)
   }
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',

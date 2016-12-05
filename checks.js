@@ -98,11 +98,14 @@ function checkLocFrom ({context, entities}) {
   return context
 }
 
-
 function getFlights ({context, entities}) {
   const mapped = mapping(context.locFrom, context.locTo)
 
   let flights = query.getFlight(context.time, mapped[0], mapped[1], 4)
+
+  flights[0].from = context.locFrom;
+  flights[0].to = context.locTo;
+  flights[0].time = context.time;
 
   context.flights = '$CATCH_FLIGHT' + JSON.stringify(flights[0])
 
