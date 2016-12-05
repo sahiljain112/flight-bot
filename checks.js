@@ -1,6 +1,6 @@
 const query = require('./query')
 // call the queryFlights function with date, from and to to get an array of available flights!
-const mapping = require('./mapping')
+const mapping = require('./mapping').mapping;
 const hashCode = function(str) {
   var hash = 0, i, chr, len
   if (str.length === 0) return hash

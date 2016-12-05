@@ -9,7 +9,6 @@ const hashCode = function(str) {
   return parseInt(hash)
 }
 
-
 const mapping = (a, b) => {
   let aH = hashCode(a) % 6
   let bH = hashCode(b) % 6
@@ -22,4 +21,27 @@ const mapping = (a, b) => {
   return [aH, bH]
 }
 
-module.exports = mapping
+const flightMapping = {
+  'jet': [1,0,0,0],
+  'fly': [0,1,0,0],
+  'set': [0,0,1,0],
+  'go': [0,0,0,1]
+}
+
+const weatherMapping = {
+  'rainy': [1,0,0],
+  'windy': [0,1,0],
+  'sunny': [0,0,1]
+}
+
+const occasionMapping = {
+  'yes': [1],
+  'no': [0]
+}
+
+module.exports = {
+  mapping,
+  flightMapping,
+  weatherMapping,
+  occasionMapping
+}
