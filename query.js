@@ -28,13 +28,13 @@ const getFlight = (date, from, to, limit) => {
       }
     }
   }
-  console.log('Available flights ', availableFlights );
+  console.log('Available flights ', availableFlights)
   return availableFlights
 }
 
 const findSlot = (date) => {
-  date = new Date(date);
-  console.log('Date', date);
+  date = new Date(date)
+  console.log('Date', date)
   const timeHours = date.getHours() - 8
 
   if (timeHours > 6 && timeHours <= 12) {

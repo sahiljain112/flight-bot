@@ -1,4 +1,5 @@
 const query = require('./query')
+const neuralNet = require('./public/js/neuralNet')
 // call the queryFlights function with date, from and to to get an array of available flights!
 const mapping = require('./mapping').mapping
 const hashCode = function (str) {
@@ -99,7 +100,7 @@ function checkLocFrom ({context, entities}) {
 }
 
 function beautifyFlights (flights) {
-  console.log('BEAUTIFY FLIGHTS', flights);
+  console.log('BEAUTIFY FLIGHTS', flights)
   const timings = {
     A: 'in afternoon',
     E: 'in evening',
@@ -130,6 +131,12 @@ function getBestFlights ({context, entities}) {
   flights = beautifyFlights(flights)
   context.flights = JSON.stringify(flights)
   console.log(flights)
+  return context
+}
+
+function getVacantSeats ({context, entities}) {
+  const vacantSeats = neuralNet.getVacantSeats()
+  console.log(vacantSeats)
   return context
 }
 

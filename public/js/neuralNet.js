@@ -7,7 +7,7 @@ const Trainer = synaptic.Trainer
 
 const inputLayer = new Layer(8)
 const hiddenLayer = new Layer(20)
-const outputLayer = new Layer(6)
+const outputLayer = new Layer(5)
 
 inputLayer.project(hiddenLayer)
 hiddenLayer.project(outputLayer)
@@ -18,37 +18,38 @@ const myNetwork = new Network({
   output: outputLayer
 })
 
-var trainingSet = [
-  {
-    input: [0, 0, 1, 0, 0, 1, 0, 1],
-    output: [0, 0, 0, 1, 0, 1]
-  },
-  {
-    input: [0, 1, 0, 0, 0, 1, 0, 0],
-    output: [0, 0, 1, 1, 0, 0]
-  },
-  {
-    input: [1, 0, 0, 0, 1, 0, 0, 0],
-    output: [0, 0, 1, 1, 1, 0]
-  },
-  {
-    input: [0, 0, 1, 0, 0, 1, 0, 1],
-    output: [0, 0, 1, 0, 0, 0]
-  },
-  {
-    input: [0, 0, 0, 1, 0, 1, 0, 0],
-    output: [0, 0, 1, 0, 1, 0, 1]
-  },
-  {
-    input: [1, 0, 1, 0, 0, 0, 1, 1],
-    output: [0, 0, 0, 0, 0, 1]
-  },
-  {
-    input: [0, 0, 1, 0, 0, 1, 0, 1],
-    output: [0, 0, 1, 1, 0, 0]
-  }
-]
-var trainingSet = require('../../training.json');
+// var trainingSet = [
+//   {
+//     input: [0, 0, 1, 0, 0, 1, 0, 1],
+//     output: [0, 0, 0, 1, 0, 1]
+//   },
+//   {
+//     input: [0, 1, 0, 0, 0, 1, 0, 0],
+//     output: [0, 0, 1, 1, 0, 0]
+//   },
+//   {
+//     input: [1, 0, 0, 0, 1, 0, 0, 0],
+//     output: [0, 0, 1, 1, 1, 0]
+//   },
+//   {
+//     input: [0, 0, 1, 0, 0, 1, 0, 1],
+//     output: [0, 0, 1, 0, 0, 0]
+//   },
+//   {
+//     input: [0, 0, 0, 1, 0, 1, 0, 0],
+//     output: [0, 0, 1, 0, 1, 0, 1]
+//   },
+//   {
+//     input: [1, 0, 1, 0, 0, 0, 1, 1],
+//     output: [0, 0, 0, 0, 0, 1]
+//   },
+//   {
+//     input: [0, 0, 1, 0, 0, 1, 0, 1],
+//     output: [0, 0, 1, 1, 0, 0]
+//   }
+// ]
+
+var trainingSet = require('../../training.js')
 const trainer = new Trainer(myNetwork)
 trainer.train(trainingSet, {
   rate: 0.2,
@@ -75,6 +76,7 @@ const testNetwork = () => {
 }
 
 const getVacantSeats = (flight, weather, occasion) => {
+
   flight = flight.toLowerCase()
   weather = weather.toLowerCase()
   occasion = occasion.toLowerCase()
