@@ -515,12 +515,6 @@ function callSendAPI (messageData) {
     console.log('rec', messageData.message.text.slice('$CATCH_FLIGHT'.length))
 
     var f = JSON.parse(messageData.message.text.slice('$CATCH_FLIGHT'.length))
-    return flights.map(f => {
-      return `A ${f.airline}-${hashCode(f.airline+f.source+f.slot+f.destination)% 1000} airlines flight, will depart in the ${timings[f.slot]}].
-       The duration of this flight would be ${f.duration}.
-      And will cost you a total of ${f.cost}.
-      `
-    })
     console.log('receipt', f)
     messageData = {
       recipient: messageData.recipient,
