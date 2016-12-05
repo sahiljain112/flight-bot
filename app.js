@@ -524,7 +524,7 @@ function callSendAPI (messageData) {
           'payload': {
             'template_type': 'airline_update',
             'intro_message': 'Your flight has been booked',
-            'update_type': 'booked',
+            'update_type': 'GATE_CHANGE',
             'locale': 'en_US',
             'pnr_number': 'CF23G2',
             'update_flight_info': {
