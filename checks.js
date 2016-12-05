@@ -99,6 +99,7 @@ function checkLocFrom ({context, entities}) {
 }
 
 function beautifyFlights (flights) {
+  console.log('BEAUTIFY FLIGHTS', flights);
   const timings = {
     A: 'in afternoon',
     E: 'in evening',
@@ -117,6 +118,15 @@ function getFlights ({context, entities}) {
   const mapped = mapping(context.locFrom, context.locTo)
 
   let flights = query.getFlight(context.time, mapped[0], mapped[1], 4)
+  flights = beautifyFlights(flights)
+  context.flights = JSON.stringify(flights)
+  return context
+}
+
+function getBestFlights ({context, entities}) {
+  const mapped = mapping(context.locFrom, context.locTo)
+
+  let flights = query.getBestRecommedations(context.time, mapped[0], mapped[1], 4)
   flights = beautifyFlights(flights)
   context.flights = JSON.stringify(flights)
   console.log(flights)

@@ -28,7 +28,7 @@ const getFlight = (date, from, to, limit) => {
       }
     }
   }
-
+  console.log('Available flights ', availableFlights );
   return availableFlights
 }
 
