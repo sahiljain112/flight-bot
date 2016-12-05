@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "lint": "jshint --exclude node_modules .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,9 @@
   },
   "engines": {
     "node": "~6.9.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-flow-strip-types": "^6.18.0",
+    "flow-bin": "^0.36.0"
   }
 }

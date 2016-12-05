@@ -23,6 +23,7 @@ var checkLocFrom = checks.checkLocFrom
 var checkTime = checks.checkTime
 var checkBooking = checks.checkBooking
 var reset = checks.reset
+var getFlights = checks.getFlights
 
 if (process.env.NODE_ENV !== 'production') {
   env(__dirname + '/.env')
@@ -62,7 +63,7 @@ const SERVER_URL = process.env.SERVER_URL
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
 const WIT_TOKEN = process.env.WIT_TOKEN
 
-console.log('Environment variables.................', process.env.SERVER_URL, '\n', process.env.PAGE_ACCESS_TOKEN,'\n' ,process.env.MESSENGER_APP_SECRET,'\n', process.env.VALIDATION_TOKEN,'\n', process.env.WIT_TOKEN);
+console.log('Environment variables.................', process.env.SERVER_URL, '\n', process.env.PAGE_ACCESS_TOKEN, '\n', process.env.MESSENGER_APP_SECRET, '\n', process.env.VALIDATION_TOKEN, '\n', process.env.WIT_TOKEN)
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   console.error('Missing config values')
@@ -138,7 +139,8 @@ const actions = {
   checkLocFrom,
   checkBooking,
   checkTime,
-  reset
+  reset,
+  getFlights
 }
 
 const wit = new Wit({
@@ -287,7 +289,6 @@ function receivedMessage (event) {
   var timeOfMessage = event.timestamp
   var message = event.message
 
-
   console.log('Received message for user %d and page %d at %d with message:',
     senderID, recipientID, timeOfMessage)
   console.log(JSON.stringify(message))
@@ -321,7 +322,6 @@ function receivedMessage (event) {
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
-
 
     wit.runActions(
           sessionId, // the user's current session
