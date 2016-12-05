@@ -48,7 +48,7 @@ var trainingSet = [
     output: [0, 0, 1, 1, 0, 0]
   }
 ]
-var trainingSet = require('../../training.json');
+var trainingSet = require('../../training.json')
 const trainer = new Trainer(myNetwork)
 trainer.train(trainingSet, {
   rate: 0.2,

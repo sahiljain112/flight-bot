@@ -98,28 +98,14 @@ function checkLocFrom ({context, entities}) {
   return context
 }
 
-function beautifyFlights (flights) {
-  console.log('BEAUTIFY FLIGHTS', flights);
-  const timings = {
-    A: 'in afternoon',
-    E: 'in evening',
-    N: 'at night',
-    M: 'in the morning'
-  }
-  return flights.map(f => {
-    return `A ${f.airline}-${hashCode(f.airline + f.source + f.slot + f.destination) % 1000} airlines flight, will depart ${timings[f.slot]}.
-     The duration of this flight would be ${f.duration}.
-    And will cost you a total of ${f.cost}.
-    `
-  })
-}
 
 function getFlights ({context, entities}) {
   const mapped = mapping(context.locFrom, context.locTo)
 
   let flights = query.getFlight(context.time, mapped[0], mapped[1], 4)
-  flights = beautifyFlights(flights)
-  context.flights = JSON.stringify(flights)
+
+  context.flights = '$CATCH_FLIGHT' + JSON.stringify(flights[0])
+
   return context
 }
 
@@ -127,9 +113,7 @@ function getBestFlights ({context, entities}) {
   const mapped = mapping(context.locFrom, context.locTo)
 
   let flights = query.getBestRecommedations(context.time, mapped[0], mapped[1], 4)
-  flights = beautifyFlights(flights)
-  context.flights = JSON.stringify(flights)
-  console.log(flights)
+  context.flights = '$CATCH_FLIGHT' + JSON.stringify(flights[0])
   return context
 }
 

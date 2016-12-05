@@ -24,7 +24,16 @@ var checkTime = checks.checkTime
 var checkBooking = checks.checkBooking
 var reset = checks.reset
 var getFlights = checks.getFlights
-
+const hashCode = function (str) {
+  var hash = 0, i, chr, len
+  if (str.length === 0) return hash
+  for (i = 0, len = str.length; i < len; i++) {
+    chr = str.charCodeAt(i)
+    hash = ((hash << 5) - hash) + chr
+    hash |= 0// Convert to 32bit integer
+  }
+  return parseInt(hash)
+}
 if (process.env.NODE_ENV !== 'production') {
   env(__dirname + '/.env')
 }
@@ -495,59 +504,40 @@ function sendTextMessage (recipientId, messageText) {
  *
  */
 function callSendAPI (messageData) {
+  if (messageData.message.text.indexOf('$CATCH_FLIGHT') >= 0) {
+    const timings = {
+      A: 'in afternoon',
+      E: 'in evening',
+      N: 'at night',
+      M: 'in the morning'
+    }
+    console.log('rec', messageData.message.text.slice('$CATCH_FLIGHT'.length))
 
-  if(messageData.message.text.substring(0,3) === '###'){
-    var text = messageData.message.text.substring(4);
+    var f = JSON.parse(messageData.message.text.slice('$CATCH_FLIGHT'.length))
+
+    console.log('receipt', f)
+
     messageData.message = {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'receipt',
-            recipient_name: 'Peter Chang',
-            order_number: receiptId,
-            currency: 'USD',
-            payment_method: 'Visa 1234',
-            timestamp: '1428444852',
-            elements: [{
-              title: 'Oculus Rift',
-              subtitle: 'Includes: headset, sensor, remote',
-              quantity: 1,
-              price: 599.00,
-              currency: 'USD',
-              image_url: SERVER_URL + '/assets/riftsq.png'
-            }, {
-              title: 'Samsung Gear VR',
-              subtitle: 'Frost White',
-              quantity: 1,
-              price: 99.99,
-              currency: 'USD',
-              image_url: SERVER_URL + '/assets/gearvrsq.png'
-            }],
-            address: {
-              street_1: '1 Hacker Way',
-              street_2: '',
-              city: 'Menlo Park',
-              postal_code: '94025',
-              state: 'CA',
-              country: 'US'
-            },
-            summary: {
-              subtotal: 698.99,
-              shipping_cost: 20.00,
-              total_tax: 57.67,
-              total_cost: 626.66
-            },
-            adjustments: [{
-              name: 'New Customer Discount',
-              amount: -50
-            }, {
-              name: '$100 Off Coupon',
-              amount: -100
-            }]
-          }
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'receipt',
+          recipient_name: 'Sourishdas Gupta',
+          order_number: '4159881',
+          currency: 'INR',
+          timestamp: new Date().getUTCSeconds(),
+          elements: [{
+            title: f.airline,
+            subtitle: `A ${f.airline}-${hashCode(f.airline + f.source + f.slot + f.destination) % 1000} airlines flight, will depart ${timings[f.slot]}.
+               The duration of this flight would be ${f.duration}`,
+            quantity: 1,
+            price: f.cost,
+            currency: 'INR',
+            image_url: 'https://cdn2.iconfinder.com/data/icons/app-types-in-grey/512/airplane_512pxGREY.png'
+          }]
         }
       }
-
+    }
   }
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
