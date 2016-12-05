@@ -102,6 +102,7 @@ function getFlights ({context, entities}) {
   const mapped = mapping(context.locFrom, context.locTo)
 
   let flights = query.getFlight(context.time, mapped[0], mapped[1], 4)
+  console.log('found flights', flights);
   if (flights.length === 0) {
      context.flights = 'Couldnt find flights';
      return context;
