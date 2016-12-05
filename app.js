@@ -517,28 +517,51 @@ function callSendAPI (messageData) {
     var f = JSON.parse(messageData.message.text.slice('$CATCH_FLIGHT'.length))
 
     console.log('receipt', f)
-
-    messageData.message = {
-      attachment: {
-        type: 'template',
-        payload: {
-          template_type: 'receipt',
-          recipient_name: 'Sourishdas Gupta',
-          order_number: '4159881',
-          currency: 'INR',
-          timestamp: new Date().getUTCSeconds(),
-          elements: [{
-            title: f.airline,
-            subtitle: `A ${f.airline}-${hashCode(f.airline + f.source + f.slot + f.destination) % 1000} airlines flight, will depart ${timings[f.slot]}.
-               The duration of this flight would be ${f.duration}`,
-            quantity: 1,
-            price: f.cost,
-            currency: 'INR',
-            image_url: 'https://cdn2.iconfinder.com/data/icons/app-types-in-grey/512/airplane_512pxGREY.png'
-          }]
+    messageData = {
+      recipient: messageData.recipient,
+      message: {
+        "attachment":{
+          "type":"template",
+          "payload":{
+            "template_type":"button",
+            "text":"What do you want to do next?",
+            "buttons":[
+              {
+                "type":"web_url",
+                "url":"https://petersapparel.parseapp.com",
+                "title":"Show Website"
+              },
+              {
+                "type":"postback",
+                "title":"Start Chatting",
+                "payload":"USER_DEFINED_PAYLOAD"
+              }
+            ]
+          }
         }
       }
     }
+    // messageData.message = {
+    //   attachment: {
+    //     type: 'template',
+    //     payload: {
+    //       template_type: 'receipt',
+    //       recipient_name: 'Sourishdas Gupta',
+    //       order_number: '4159881',
+    //       currency: 'INR',
+    //       timestamp: new Date().getUTCSeconds(),
+    //       elements: [{
+    //         title: f.airline,
+    //         subtitle: `A ${f.airline}-${hashCode(f.airline + f.source + f.slot + f.destination) % 1000} airlines flight, will depart ${timings[f.slot]}.
+    //            The duration of this flight would be ${f.duration}`,
+    //         quantity: 1,
+    //         price: f.cost,
+    //         currency: 'INR',
+    //         image_url: 'https://cdn2.iconfinder.com/data/icons/app-types-in-grey/512/airplane_512pxGREY.png'
+    //       }]
+    //     }
+    //   }
+    // }
     console.log(messageData);
   }
   request({
