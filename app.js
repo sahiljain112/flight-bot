@@ -542,9 +542,9 @@ function callSendAPI (messageData) {
                 'gate': `G${parseInt(Math.random()*10)}`
               },
               'flight_schedule': {
-                'boarding_time': f.date,
-                'departure_time': f.date,
-                'arrival_time': f.date
+                'boarding_time': f.time,
+                'departure_time': f.time,
+                'arrival_time': f.time
               }
             }
           }
