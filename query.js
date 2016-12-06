@@ -32,8 +32,11 @@ const getFlight = (date, from, to, limit) => {
     }
   }
 
-  // if(availableFlights.length === 0)
-//    availableFlights = getBestRecommedations(date2, from, to, limit);
+
+  if(availableFlights.length === 0){
+    console.log('availableFlights are 0. Getting best recommendations');
+    availableFlights = getBestRecommedations(date2, from, to, limit);
+  }
   console.log('Available flights ', availableFlights)
   return availableFlights
 }
@@ -50,19 +53,19 @@ const findSlot = (date) => {
   } else if (timeHours > 16 && timeHours <= 19) { return 'E' } else { return 'N' }
 }
 
-const getBestRecommedations = (date, from, to, limit) => {
-  let formattedDate = ('' + date).split('T')
-  let timeCompare = '00:00:00.000-08:00'
-  date = formattedDate[0] + timeCompare
+const getBestRecommedations = (date2, from, to, limit) => {
+  // let formattedDate = ('' + date).split('T')
+  // let timeCompare = '00:00:00.000-08:00'
+  // date = formattedDate[0] + timeCompare
 
   // let availableFlights = getBestFlights(date, from, to, limit)
   // let bestFlights = getBestFlights(availableFlights, suggestionLimit)
 
   let goodNearbyFlights = []
-  console.log('Date2', date)
-  let tomorrow = new Date(date), previous = new Date(date)
+  console.log('Date2', date2)
+  let tomorrow = new Date(date2), previous = new Date(date2)
 
-  console.log('Tom', tomorrow)
+//  console.log('Tom', tomorrow)
   const tomorrow1 = new Date(tomorrow.getTime() + (1000 * 60 * 60 * 24))
   console.log(tomorrow1)
   goodNearbyFlights = goodNearbyFlights.concat(getFlight(tomorrow1, from, to, limit))

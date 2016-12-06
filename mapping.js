@@ -10,12 +10,13 @@ const hashCode = function (str) {
 }
 
 const mapping = (a, b) => {
+  
   console.log(a, b)
-  let aH = hashCode(a) % 6
-  let bH = hashCode(b) % 6
+  let aH = hashCode(a) % 6 + 1;
+  let bH = hashCode(b) % 6 + 1;
 
   while (aH === bH) {
-    bH = hashCode(b + a) % 6
+    bH = hashCode(b + a) % 6 + 1;
     b = a + '.' + b
   }
 
