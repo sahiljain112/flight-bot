@@ -574,12 +574,12 @@ function callSendAPI (messageData) {
        "price_info": [
          {
            "title": "Fuel surcharge",
-           "amount": f.cost*0.6,
+           "amount": f.cost*0.2,
            "currency": "INR"
          }
        ],
        "base_price": f.cost*0.7,
-       "tax": "200",
+       "tax": f.cost*0.1,
        "total_price": f.cost,
        "currency": "INR"
      }
