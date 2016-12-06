@@ -533,9 +533,14 @@ function callSendAPI (messageData) {
        "pnr_number": "ABCDEF",
        "passenger_info": [
          {
-           "name": "Sourish Dasgupta",
+           "name": "Saurish Dasgupta",
            "ticket_number": "0741234567890",
            "passenger_id": "p001"
+         },
+         {
+           "name": "Nick Jones",
+           "ticket_number": "0741234567891",
+           "passenger_id": "p002"
          }
        ],
        "flight_info": [
@@ -594,6 +599,12 @@ function callSendAPI (messageData) {
            "seat_type": "Business"
          },
          {
+           "segment_id": "s001",
+           "passenger_id": "p002",
+           "seat": "12B",
+           "seat_type": "Business"
+         },
+         {
            "segment_id": "s002",
            "passenger_id": "p001",
            "seat": "73A",
@@ -609,18 +620,34 @@ function callSendAPI (messageData) {
              }
            ]
          },
+         {
+           "segment_id": "s002",
+           "passenger_id": "p002",
+           "seat": "73B",
+           "seat_type": "World Business",
+           "product_info": [
+             {
+               "title": "Lounge",
+               "value": "Complimentary lounge access"
+             },
+             {
+               "title": "Baggage",
+               "value": "1 extra bag 50lbs"
+             }
+           ]
+         }
        ],
        "price_info": [
          {
            "title": "Fuel surcharge",
-           "amount": "1597",
-           "currency": "INR"
+           "amount": f.price*0.6,
+           "currency": "USD"
          }
        ],
-       "base_price": f.price*0.6,
+       "base_price": f.price*0.7,
        "tax": "200",
        "total_price": f.price,
-       "currency": "INR"
+       "currency": "USD"
      }
         }
 
