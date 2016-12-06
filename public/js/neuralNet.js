@@ -52,7 +52,6 @@ const myNetwork = new Network({
 //     output: [0, 0, 1, 1, 0, 0]
 //   }
 // ]
-var trainingSet = require('../../training.json')
 // var trainingSet = [
 //   {
 //     input: [0, 0, 1, 0, 0, 1, 0, 1],
