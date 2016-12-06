@@ -533,7 +533,7 @@ function callSendAPI (messageData) {
        "pnr_number": "ABCDEF",
        "passenger_info": [
          {
-           "name": "Saurish Dasgupta",
+           "name": "Sourish Dasgupta",
            "ticket_number": "0741234567890",
            "passenger_id": "p001"
          }
@@ -545,13 +545,13 @@ function callSendAPI (messageData) {
            "flight_number": Math.abs(hashCode(f.airline + f.source + f.slot + f.destination) % 1000),
            "aircraft_type": "Boeing 737",
            "departure_airport": {
-             'airport_code': f.from.slice(0, 2),
+             'airport_code': f.from.slice(0, 2).toUpperCase(),
               'city': f.from,
               'terminal': parseInt(Math.random() * 3) + 1,
               'gate': `G${parseInt(Math.random() * 10)}`
            },
            "arrival_airport": {
-             'airport_code': f.to.slice(0, 2),
+             'airport_code': f.to.slice(0, 2).toUpperCase(),
             'city': f.to,
             'terminal': parseInt(Math.random() * 3) + 1,
             'gate': `G${parseInt(Math.random() * 10)}`
@@ -562,29 +562,6 @@ function callSendAPI (messageData) {
            },
            "travel_class": "business"
          },
-         {
-           "connection_id": "c002",
-           "segment_id": "s002",
-           "flight_number": "KL321",
-           "aircraft_type": "Boeing 747-200",
-           "travel_class": "business",
-           "departure_airport": {
-             "airport_code": "SLC",
-             "city": "Salt Lake City",
-             "terminal": "T1",
-             "gate": "G33"
-           },
-           "arrival_airport": {
-             "airport_code": "AMS",
-             "city": "Amsterdam",
-             "terminal": "T1",
-             "gate": "G33"
-           },
-           "flight_schedule": {
-             "departure_time": "2016-01-02T22:45",
-             "arrival_time": "2016-01-03T17:20"
-           }
-         }
        ],
        "passenger_segment_info": [
          {
@@ -592,23 +569,6 @@ function callSendAPI (messageData) {
            "passenger_id": "p001",
            "seat": "12A",
            "seat_type": "Business"
-         },
-
-         {
-           "segment_id": "s002",
-           "passenger_id": "p001",
-           "seat": "73A",
-           "seat_type": "World Business",
-           "product_info": [
-             {
-               "title": "Lounge",
-               "value": "Complimentary lounge access"
-             },
-             {
-               "title": "Baggage",
-               "value": "1 extra bag 50lbs"
-             }
-           ]
          },
        ],
        "price_info": [
