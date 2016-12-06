@@ -9,7 +9,7 @@ try {
   interactive = require('node-wit').interactive
 }
 
-var {checkBooking, checkLocTo, checkLocFrom, checkTime, reset, getFlights} = require('./checks')
+var {checkBooking, checkLocTo, checkLocFrom, checkTime, reset, getFlights, getVacantSeats} = require('./checks')
 
 const accessToken = 'PULEMNT64DSFAPDJEVKBZ6C6EIVNCV2K'
 
@@ -50,7 +50,8 @@ const actions = {
   checkBooking,
   checkTime,
   reset,
-  getFlights
+  getFlights,
+  getVacantSeats
 }
 
 const client = new Wit({accessToken, actions})

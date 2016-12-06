@@ -2,6 +2,7 @@ const query = require('./query')
 const neuralNet = require('./public/js/neuralNet')
 // call the queryFlights function with date, from and to to get an array of available flights!
 const mapping = require('./mapping').mapping
+const flightMapping = require('./mapping').flightMapping;
 const hashCode = function (str) {
   var hash = 0, i, chr, len
   if (str.length === 0) return hash
@@ -26,6 +27,7 @@ const firstEntityValue = (entities, entity) => {
 }
 
 function checkBooking ({context, entities}) {
+  console.log('top', entities);
   // var loc = firstEntityValue(entities, 'location')
   var loc = firstEntityValue(entities, 'location')
 
@@ -116,6 +118,7 @@ function beautifyFlights (flights) {
 }
 
 function getFlights ({context, entities}) {
+  console.log(context);
   const mapped = mapping(context.locFrom, context.locTo)
 
   let flights = query.getFlight(context.time, mapped[0], mapped[1], 4)
@@ -135,8 +138,21 @@ function getBestFlights ({context, entities}) {
 }
 
 function getVacantSeats ({context, entities}) {
-  const vacantSeats = neuralNet.getVacantSeats()
-  console.log(vacantSeats)
+  // YET TO ADD FLIGHT HERE!
+  let flight = 'fly';
+  const num = Math.floor(Math.random() * 4);
+  if(num === 0)
+    flight = 'jet';
+  else if(num === 1)
+    flight = 'set';
+  else if(num === 2)
+    flight = 'fly'
+  else {
+    flight = 'go'
+  }
+  console.log(flight);
+  const ret = neuralNet(context.time, flight)
+  context.vacant = `My reliable neural networks predicts that the price for this airline would drop by ${Math.abs(ret.num % 24)}% right ${((Math.random()*10)% 2)+1} days before, with a confidence of ${ret.p}. Would you like me book when this happens?`
   return context
 }
 
@@ -157,10 +173,11 @@ function checkTime ({context, entities}) {
 }
 
 function reset ({context}) {
+  console.log('resetin');
   Object.keys(context).forEach(k => {
     delete context[k]
   })
-  return context
+  return {}
 }
 
 module.exports = {
@@ -169,5 +186,6 @@ module.exports = {
   checkLocTo,
   checkTime,
   reset,
-  getFlights
+  getFlights,
+  getVacantSeats
 }

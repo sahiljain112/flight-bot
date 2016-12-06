@@ -24,6 +24,8 @@ var checkTime = checks.checkTime
 var checkBooking = checks.checkBooking
 var reset = checks.reset
 var getFlights = checks.getFlights
+var getVacantSeats = checks.getVacantSeats
+// var getBestFlights = checks.getBestFlights
 
 if (process.env.NODE_ENV !== 'production') {
   env(__dirname + '/.env')

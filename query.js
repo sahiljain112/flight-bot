@@ -16,18 +16,21 @@ const getFlight = (date, from, to, limit) => {
     }
 
     if (jsonData[flightData].source === from && jsonData[flightData].destination === to && jsonData[flightData].date === formattedDate[0]) {
-      if (formattedDate[1] === timeCompare) {
-        availableFlights.push(jsonData[flightData])
-        count += 1
-      } else {
-        const slot = findSlot(date)
-        if (jsonData[flightData].slot === slot) {
-          availableFlights.push(jsonData[flightData])
-          count += 1
-        }
-      }
+      // if (formattedDate[1] === timeCompare) {
+      //   availableFlights.push(jsonData[flightData])
+      //   count += 1
+      // } else {
+      //   const slot = findSlot(date)
+      //   if (jsonData[flightData].slot === slot) {
+      //     availableFlights.push(jsonData[flightData])
+      //     count += 1
+      //   }
+      // }
+      availableFlights.push(jsonData[flightData])
+      count += 1
     }
   }
+
   console.log('Available flights ', availableFlights)
   return availableFlights
 }
