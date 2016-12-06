@@ -528,19 +528,14 @@ function callSendAPI (messageData) {
           "type": "template",
      "payload": {
        "template_type": "airline_itinerary",
-       "intro_message": "Here\'s your flight itinerary.",
+       "intro_message": "Thanks for booking",
        "locale": "en_US",
        "pnr_number": "ABCDEF",
        "passenger_info": [
          {
-           "name": "Farbound Smith Jr",
+           "name": "Sourish Dasgupta",
            "ticket_number": "0741234567890",
            "passenger_id": "p001"
-         },
-         {
-           "name": "Nick Jones",
-           "ticket_number": "0741234567891",
-           "passenger_id": "p002"
          }
        ],
        "flight_info": [
@@ -599,12 +594,6 @@ function callSendAPI (messageData) {
            "seat_type": "Business"
          },
          {
-           "segment_id": "s001",
-           "passenger_id": "p002",
-           "seat": "12B",
-           "seat_type": "Business"
-         },
-         {
            "segment_id": "s002",
            "passenger_id": "p001",
            "seat": "73A",
@@ -620,34 +609,18 @@ function callSendAPI (messageData) {
              }
            ]
          },
-         {
-           "segment_id": "s002",
-           "passenger_id": "p002",
-           "seat": "73B",
-           "seat_type": "World Business",
-           "product_info": [
-             {
-               "title": "Lounge",
-               "value": "Complimentary lounge access"
-             },
-             {
-               "title": "Baggage",
-               "value": "1 extra bag 50lbs"
-             }
-           ]
-         }
        ],
        "price_info": [
          {
            "title": "Fuel surcharge",
            "amount": "1597",
-           "currency": "USD"
+           "currency": "INR"
          }
        ],
-       "base_price": "12206",
+       "base_price": f.price*0.6,
        "tax": "200",
-       "total_price": "14003",
-       "currency": "USD"
+       "total_price": f.price,
+       "currency": "INR"
      }
         }
 
