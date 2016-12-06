@@ -540,11 +540,6 @@ function callSendAPI (messageData) {
                 'city': f.to,
                 'terminal': parseInt(Math.random()*3) + 1,
                 'gate': `G${parseInt(Math.random()*10)}`
-              },
-              'flight_schedule': {
-                'boarding_time': f.time,
-                'departure_time': f.time,
-                'arrival_time': f.time
               }
             }
           }
