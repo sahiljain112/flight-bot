@@ -5,7 +5,7 @@ const getFlight = (date, from, to, limit) => {
   console.log(date, from, to, limit)
   let timeCompare = '00:00:00.000-08:00'
  // Will not work for midnight flight cases
-  date2 = '' + date;
+  const date2 = '' + date
   date = '' + date
   const formattedDate = (date).split('T')
   let availableFlights = []
@@ -58,32 +58,23 @@ const getBestRecommedations = (date, from, to, limit) => {
   // let availableFlights = getBestFlights(date, from, to, limit)
   // let bestFlights = getBestFlights(availableFlights, suggestionLimit)
 
-
   let goodNearbyFlights = []
-  console.log('Date2' ,date2);
-  let tomorrow = new Date(date2), previous = new Date(date2);
+  console.log('Date2', date)
+  let tomorrow = new Date(date), previous = new Date(date)
 
-  for (let i = 0; i < limit; i++) {
-    console.log('Tom', tomorrow);
-    tomorrow = new Date(tomorrow.getTime() + (1000 * 60 * 60 * 24))
-    console.log(tomorrow);
-    goodNearbyFlights = goodNearbyFlights.concat(getFlight(tomorrow, from, to, limit))
-  }
+  console.log('Tom', tomorrow)
+  const tomorrow1 = new Date(tomorrow.getTime() + (1000 * 60 * 60 * 24))
+  console.log(tomorrow1)
+  goodNearbyFlights = goodNearbyFlights.concat(getFlight(tomorrow1, from, to, limit))
 
   const timeDiff = Math.abs(previous.getTime() - tomorrow.getTime())
   const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
 
-  if (diffDays < limit) {
-    limit = diffDays
-  }
-
-  for (let i = 0; i < limit; i++) {
-    previous = new Date(previous.getTime() - 1000 * 60 * 60 * 24)
-    goodNearbyFlights = goodNearbyFlights.concat(getFlight(previous, from, to, limit))
-  }
+  const previous1 = new Date(previous.getTime() - 1000 * 60 * 60 * 24)
+  goodNearbyFlights = goodNearbyFlights.concat(getFlight(previous1, from, to, limit))
 
   let bestNeabyFlights = getBestFlights(goodNearbyFlights, 1)
-  return bestNeabyFlights;
+  return bestNeabyFlights
 }
 
 const getBestFlights = (flights, limit) => {

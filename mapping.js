@@ -10,7 +10,7 @@ const hashCode = function (str) {
 }
 
 const mapping = (a, b) => {
-  console.log(a, b);
+  console.log(a, b)
   let aH = hashCode(a) % 6
   let bH = hashCode(b) % 6
 
