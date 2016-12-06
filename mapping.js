@@ -10,6 +10,7 @@ const hashCode = function (str) {
 }
 
 const mapping = (a, b) => {
+  console.log(a, b);
   let aH = hashCode(a) % 6
   let bH = hashCode(b) % 6
 
@@ -23,20 +24,22 @@ const mapping = (a, b) => {
 
 const flightMapping = {
   'jet': [1, 0, 0, 0],
-  'fly': [0, 1, 0, 0],
-  'set': [0, 0, 1, 0],
+  'set': [0, 1, 0, 0],
+  'fly': [0, 0, 1, 0],
   'go': [0, 0, 0, 1]
 }
 
 const weatherMapping = {
-  'rainy': [1, 0, 0],
-  'windy': [0, 1, 0],
-  'sunny': [0, 0, 1]
+  'winter': [1, 0, 0],
+  'sunny': [0, 1, 0],
+  'rainy': [0, 0, 1]
 }
 
 const occasionMapping = {
-  'yes': [1],
-  'no': [0]
+  'yes': [1, 0, 0, 0],
+  '1-day': [0, 1, 0, 0],
+  '2-day': [0, 0, 1, 0],
+  'default': [0, 0, 0, 1]
 }
 
 module.exports = {

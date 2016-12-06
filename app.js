@@ -24,6 +24,7 @@ var checkTime = checks.checkTime
 var checkBooking = checks.checkBooking
 var reset = checks.reset
 var getFlights = checks.getFlights
+
 const hashCode = function (str) {
   var hash = 0, i, chr, len
   if (str.length === 0) return hash
@@ -34,6 +35,9 @@ const hashCode = function (str) {
   }
   return parseInt(hash)
 }
+var getVacantSeats = checks.getVacantSeats
+// var getBestFlights = checks.getBestFlights
+
 if (process.env.NODE_ENV !== 'production') {
   env(__dirname + '/.env')
 }
@@ -149,7 +153,9 @@ const actions = {
   checkBooking,
   checkTime,
   reset,
-  getFlights
+  getFlights,
+  getBestFlights,
+  getVacantSeats
 }
 
 const wit = new Wit({
@@ -504,6 +510,7 @@ function sendTextMessage (recipientId, messageText) {
  *
  */
 function callSendAPI (messageData) {
+<<<<<<< HEAD
   if (messageData.message.text.indexOf('$CATCH_FLIGHT') >= 0) {
     const timings = {
       A: 'in afternoon',
@@ -542,9 +549,9 @@ function callSendAPI (messageData) {
                 'gate': `G${parseInt(Math.random()*10)}`
               },
               'flight_schedule': {
-                "boarding_time": "2015-12-26T10:30",
-                "departure_time": "2015-12-26T11:30",
-                "arrival_time": "2015-12-27T07:30"
+                "boarding_time": "2015-12-26T06:45",
+                "departure_time": "2015-12-26T07:30",
+                "arrival_time": "2015-12-26T11:30"
               }
             }
           }
@@ -573,6 +580,59 @@ function callSendAPI (messageData) {
     //   }
     // }
     console.log(messageData)
+=======
+  if (messageData.message.text.substring(0, 3) === '###') {
+    var text = messageData.message.text.substring(4)
+    messageData.message = {
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'receipt',
+          recipient_name: 'Peter Chang',
+          order_number: receiptId,
+          currency: 'USD',
+          payment_method: 'Visa 1234',
+          timestamp: '1428444852',
+          elements: [{
+            title: 'Oculus Rift',
+            subtitle: 'Includes: headset, sensor, remote',
+            quantity: 1,
+            price: 599.00,
+            currency: 'USD',
+            image_url: SERVER_URL + '/assets/riftsq.png'
+          }, {
+            title: 'Samsung Gear VR',
+            subtitle: 'Frost White',
+            quantity: 1,
+            price: 99.99,
+            currency: 'USD',
+            image_url: SERVER_URL + '/assets/gearvrsq.png'
+          }],
+          address: {
+            street_1: '1 Hacker Way',
+            street_2: '',
+            city: 'Menlo Park',
+            postal_code: '94025',
+            state: 'CA',
+            country: 'US'
+          },
+          summary: {
+            subtotal: 698.99,
+            shipping_cost: 20.00,
+            total_tax: 57.67,
+            total_cost: 626.66
+          },
+          adjustments: [{
+            name: 'New Customer Discount',
+            amount: -50
+          }, {
+            name: '$100 Off Coupon',
+            amount: -100
+          }]
+        }
+      }
+    }
+>>>>>>> 7208d0da6b8ae9ac3821c9f34d9f0d8ebb853046
   }
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',

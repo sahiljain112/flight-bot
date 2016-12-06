@@ -5,6 +5,7 @@ const getFlight = (date, from, to, limit) => {
   console.log(date, from, to, limit)
   let timeCompare = '00:00:00.000-08:00'
  // Will not work for midnight flight cases
+  date2 = '' + date;
   date = '' + date
   const formattedDate = (date).split('T')
   let availableFlights = []
@@ -16,18 +17,23 @@ const getFlight = (date, from, to, limit) => {
     }
 
     if (jsonData[flightData].source === from && jsonData[flightData].destination === to && jsonData[flightData].date === formattedDate[0]) {
-      if (formattedDate[1] === timeCompare) {
-        availableFlights.push(jsonData[flightData])
-        count += 1
-      } else {
-        const slot = findSlot(date)
-        if (jsonData[flightData].slot === slot) {
-          availableFlights.push(jsonData[flightData])
-          count += 1
-        }
-      }
+      // if (formattedDate[1] === timeCompare) {
+      //   availableFlights.push(jsonData[flightData])
+      //   count += 1
+      // } else {
+      //   const slot = findSlot(date)
+      //   if (jsonData[flightData].slot === slot) {
+      //     availableFlights.push(jsonData[flightData])
+      //     count += 1
+      //   }
+      // }
+      availableFlights.push(jsonData[flightData])
+      count += 1
     }
   }
+
+  // if(availableFlights.length === 0)
+//    availableFlights = getBestRecommedations(date2, from, to, limit);
   console.log('Available flights ', availableFlights)
   return availableFlights
 }
@@ -44,19 +50,23 @@ const findSlot = (date) => {
   } else if (timeHours > 16 && timeHours <= 19) { return 'E' } else { return 'N' }
 }
 
-const getBestRecommedations = (date, from, to, limit, suggestionLimit) => {
+const getBestRecommedations = (date, from, to, limit) => {
   let formattedDate = ('' + date).split('T')
   let timeCompare = '00:00:00.000-08:00'
   date = formattedDate[0] + timeCompare
 
-  let availableFlights = getBestFlights(date, from, to, limit)
-  let bestFlights = getBestFlights(availableFlights, suggestionLimit)
+  // let availableFlights = getBestFlights(date, from, to, limit)
+  // let bestFlights = getBestFlights(availableFlights, suggestionLimit)
+
 
   let goodNearbyFlights = []
-  let tomorrow = date, previous = date
+  console.log('Date2' ,date2);
+  let tomorrow = new Date(date2), previous = new Date(date2);
 
   for (let i = 0; i < limit; i++) {
-    tomorrow = new Date(tomorrow.getTime() + 1000 * 60 * 60 * 24)
+    console.log('Tom', tomorrow);
+    tomorrow = new Date(tomorrow.getTime() + (1000 * 60 * 60 * 24))
+    console.log(tomorrow);
     goodNearbyFlights = goodNearbyFlights.concat(getFlight(tomorrow, from, to, limit))
   }
 
@@ -72,9 +82,8 @@ const getBestRecommedations = (date, from, to, limit, suggestionLimit) => {
     goodNearbyFlights = goodNearbyFlights.concat(getFlight(previous, from, to, limit))
   }
 
-  bestFlights = bestFlights.concat(getBestFlights(goodNearbyFlights, suggestionLimit))
-  bestFlights = bestFlights.slice(1)
-  return bestFlights
+  let bestNeabyFlights = getBestFlights(goodNearbyFlights, 1)
+  return bestNeabyFlights;
 }
 
 const getBestFlights = (flights, limit) => {
