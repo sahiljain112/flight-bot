@@ -536,30 +536,25 @@ function callSendAPI (messageData) {
            "name": "Saurish Dasgupta",
            "ticket_number": "0741234567890",
            "passenger_id": "p001"
-         },
-         {
-           "name": "Nick Jones",
-           "ticket_number": "0741234567891",
-           "passenger_id": "p002"
          }
        ],
        "flight_info": [
          {
            "connection_id": "c001",
            "segment_id": "s001",
-           "flight_number": "KL9123",
+           "flight_number": Math.abs(hashCode(f.airline + f.source + f.slot + f.destination) % 1000),
            "aircraft_type": "Boeing 737",
            "departure_airport": {
-             "airport_code": "SFO",
-             "city": "San Francisco",
-             "terminal": "T4",
-             "gate": "G8"
+             'airport_code': f.from.slice(0, 2),
+              'city': f.from,
+              'terminal': parseInt(Math.random() * 3) + 1,
+              'gate': `G${parseInt(Math.random() * 10)}`
            },
            "arrival_airport": {
-             "airport_code": "SLC",
-             "city": "Salt Lake City",
-             "terminal": "T4",
-             "gate": "G8"
+             'airport_code': f.to.slice(0, 2),
+            'city': f.to,
+            'terminal': parseInt(Math.random() * 3) + 1,
+            'gate': `G${parseInt(Math.random() * 10)}`
            },
            "flight_schedule": {
              "departure_time": "2016-01-02T19:45",
@@ -598,12 +593,7 @@ function callSendAPI (messageData) {
            "seat": "12A",
            "seat_type": "Business"
          },
-         {
-           "segment_id": "s001",
-           "passenger_id": "p002",
-           "seat": "12B",
-           "seat_type": "Business"
-         },
+
          {
            "segment_id": "s002",
            "passenger_id": "p001",
@@ -620,22 +610,6 @@ function callSendAPI (messageData) {
              }
            ]
          },
-         {
-           "segment_id": "s002",
-           "passenger_id": "p002",
-           "seat": "73B",
-           "seat_type": "World Business",
-           "product_info": [
-             {
-               "title": "Lounge",
-               "value": "Complimentary lounge access"
-             },
-             {
-               "title": "Baggage",
-               "value": "1 extra bag 50lbs"
-             }
-           ]
-         }
        ],
        "price_info": [
          {
