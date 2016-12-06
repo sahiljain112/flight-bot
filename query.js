@@ -32,10 +32,9 @@ const getFlight = (date, from, to, limit) => {
     }
   }
 
-
-  if(availableFlights.length === 0){
-    console.log('availableFlights are 0. Getting best recommendations');
-    availableFlights = getBestRecommedations(date2, from, to, limit);
+  if (availableFlights.length === 0) {
+    console.log('availableFlights are 0. Getting best recommendations')
+    availableFlights = getBestRecommedations(date2, from, to, limit)
   }
   console.log('Available flights ', availableFlights)
   return availableFlights

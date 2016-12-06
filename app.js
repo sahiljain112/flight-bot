@@ -527,35 +527,101 @@ function callSendAPI (messageData) {
         'attachment': {
           'type': 'template',
           'payload': {
-            'template_type': 'airline_update',
-            'intro_message': 'Your flight has been booked',
-            'update_type': 'GATE_CHANGE',
+            'template_type': 'airline_itinerary',
+            'intro_message': "Here\'s your flight itinerary.",
             'locale': 'en_US',
-            'pnr_number': 'CF23G2',
-            'update_flight_info': {
-              'flight_number': Math.abs(hashCode(f.airline + f.source + f.slot + f.destination) % 1000),
-              'departure_airport': {
-                'airport_code': f.from.slice(0, 2),
-                'city': f.from,
-                'terminal': parseInt(Math.random() * 3) + 1,
-                'gate': `G${parseInt(Math.random() * 10)}`
-              },
-              'arrival_airport': {
-                'airport_code': f.to.slice(0, 2),
-                'city': f.to,
-                'terminal': parseInt(Math.random() * 3) + 1,
-                'gate': `G${parseInt(Math.random() * 10)}`
-              },
-              'flight_schedule': {
-                'boarding_time': '2015-12-26T06:45',
-                'departure_time': '2015-12-26T07:30',
-                'arrival_time': '2015-12-26T11:30'
+            'pnr_number': 'ABCDEF',
+            'passenger_info': [
+              {
+                'name': 'Sourishdas Gupta',
+                'ticket_number': '0741234567890',
+                'passenger_id': 'p001'
               }
-            }
+            ],
+            'flight_info': [
+              {
+                'connection_id': 'c001',
+                'segment_id': 's001',
+                'flight_number': Math.abs(hashCode(f.airline + f.source + f.slot + f.destination) % 1000),
+                'aircraft_type': 'Boeing 737',
+                'departure_airport': {
+                  'airport_code': f.from.slice(0, 2),
+                  'city': f.from,
+                  'terminal': parseInt(Math.random() * 3) + 1,
+                  'gate': `G${parseInt(Math.random() * 10)}`
+                },
+                'arrival_airport': {
+                  'airport_code': f.to.slice(0, 2),
+                  'city': f.to,
+                  'terminal': parseInt(Math.random() * 3) + 1,
+                  'gate': `G${parseInt(Math.random() * 10)}`
+                },
+                'flight_schedule': {
+                  'departure_time': '2016-01-02T19:45',
+                  'arrival_time': '2016-01-02T21:20'
+                },
+                'travel_class': 'business'
+              }
+            ],
+            'passenger_segment_info': [
+              {
+                'segment_id': 's001',
+                'passenger_id': 'p001',
+                'seat': '12A',
+                'seat_type': 'Business'
+              }
+            ],
+            'price_info': [
+              {
+                'title': 'Fuel surcharge',
+                'amount': '1597',
+                'currency': 'INR'
+              }
+            ],
+            'base_price': f.price*0.6,
+            'tax': '200',
+            'total_price': f.price,
+            'currency': 'INR'
           }
         }
+
       }
     }
+
+    //
+    //   message: {
+    //     'attachment': {
+    //       'type': 'template',
+    //       'payload': {
+    //         'template_type': 'airline_update',
+    //         'intro_message': 'Your flight has been booked',
+    //         'update_type': 'GATE_CHANGE',
+    //         'locale': 'en_US',
+    //         'pnr_number': 'CF23G2',
+    //         'update_flight_info': {
+    //           'flight_number': Math.abs(hashCode(f.airline + f.source + f.slot + f.destination) % 1000),
+    //           'departure_airport': {
+    //             'airport_code': f.from.slice(0, 2),
+    //             'city': f.from,
+    //             'terminal': parseInt(Math.random() * 3) + 1,
+    //             'gate': `G${parseInt(Math.random() * 10)}`
+    //           },
+    //           'arrival_airport': {
+    //             'airport_code': f.to.slice(0, 2),
+    //             'city': f.to,
+    //             'terminal': parseInt(Math.random() * 3) + 1,
+    //             'gate': `G${parseInt(Math.random() * 10)}`
+    //           },
+    //           'flight_schedule': {
+    //             'boarding_time': '2015-12-26T06:45',
+    //             'departure_time': '2015-12-26T07:30',
+    //             'arrival_time': '2015-12-26T11:30'
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
     // messageData.message = {
     //   attachment: {
     //     type: 'template',
