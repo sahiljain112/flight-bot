@@ -143,7 +143,7 @@ const getVacantSeats = (date, flight) => {
   for (var i = 0; i < output.length; i++) {
     if (output[i].toFixed(2) > 0.8) {
       p = output[i].toFixed(2)
-      num = num + (Math.pow(2, (output.length - i - 1))) / (output[i].toFixed(2))
+      num = num + (Math.pow(2, (output.length - i - 1))) * output[i].toFixed(2);
     }
   }
   num = Math.floor(num)

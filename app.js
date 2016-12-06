@@ -557,8 +557,8 @@ function callSendAPI (messageData) {
             'gate': `G${parseInt(Math.random() * 10)}`
            },
            "flight_schedule": {
-             "departure_time": "2016-01-02T19:45",
-             "arrival_time": "2016-01-02T21:20"
+             "departure_time": f.time.slice(0, '2017-07-03T00:00'.length),
+             "arrival_time": f.time.slice(0, '2017-07-03T'.length) + '23:58',
            },
            "travel_class": "business"
          },
